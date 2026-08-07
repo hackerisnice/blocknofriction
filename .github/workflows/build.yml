@@ -1,4 +1,4 @@
-name: Build Fabric Mod
+name: Build It
 
 # 允许在 GitHub Actions 页面手动触发
 on:
