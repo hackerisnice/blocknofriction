@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "blocknofriction",
+  "version": "${version}",
+  "name": "Block No Friction",
+  "description": "Zero friction blocks and vector recoil physics.",
+  "authors": [
+    "Panda"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/blocknofriction/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.panda.blocknofriction.BlockNoFriction"
+    ]
+  },
+  "mixins": [
+    "blocknofriction.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": "~${minecraft_version}",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
