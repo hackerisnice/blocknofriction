@@ -4,7 +4,7 @@
   "package": "com.panda.blocknofriction.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "BlockFrictionMixin",
+    "EntityFrictionMixin",
     "EntityRecoilMixin"
   ],
   "injectors": {
