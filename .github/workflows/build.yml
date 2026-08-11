@@ -1,6 +1,6 @@
-name: Build It
+name: Build Fabric Mod
 on:
-  workflow_dispatch: # 允许在 GitHub Actions 页面手动触发
+  workflow_dispatch: 
 
 jobs:
   build:
@@ -21,12 +21,17 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      # 增加 --info 参数，方便在日志里追踪跳过了哪些步骤
       - name: Build Mod
-        run: ./gradlew build
+        run: ./gradlew build --info
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: blocknofriction-1.21-fabric
-          path: build/libs/*-1.0.0.jar
+          # 精准抓取：只保留最终产物，排除 -dev 和 -sources 包
+          path: |
+            build/libs/*.jar
+            !build/libs/*-dev.jar
+            !build/libs/*-sources.jar
           if-no-files-found: error
