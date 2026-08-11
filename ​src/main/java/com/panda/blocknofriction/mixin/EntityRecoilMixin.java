@@ -1,5 +1,6 @@
 package com.panda.blocknofriction.mixin;
 
+import com.panda.blocknofriction.BlockNoFriction;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -32,11 +33,12 @@ public abstract class EntityRecoilMixin extends Entity {
 
     @Inject(method = "swingHand(Lnet/minecraft/util/Hand;Z)V", at = @At("HEAD"))
     private void applySwingRecoil(Hand hand, boolean fromServerPlayer, CallbackInfo ci) {
+        // 【新增】如果未开启该模式，直接跳过计算
+        if (!BlockNoFriction.isNoFrictionEnabled) return; 
+        
         if (!shouldApplyPhysics()) return;
         
         Vec3d lookVec = this.getRotationVector();
-        // 【关键调整】把 0.6 降到了 0.15。
-        // 这样即使你朝下疯狂按左键，向上的推力也不足以让你克服重力飞起来。
         double recoilForce = 0.15; 
         
         this.addVelocity(-lookVec.x * recoilForce, -lookVec.y * recoilForce, -lookVec.z * recoilForce);
@@ -45,11 +47,13 @@ public abstract class EntityRecoilMixin extends Entity {
 
     @Inject(method = "damage", at = @At("RETURN"))
     private void applyDamageRecoil(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+        // 【新增】如果未开启该模式，直接跳过计算
+        if (!BlockNoFriction.isNoFrictionEnabled) return; 
+        
         if (cir.getReturnValue() && shouldApplyPhysics()) {
             Vec3d sourcePos = source.getPosition();
             if (sourcePos != null) {
                 Vec3d pushVec = this.getPos().subtract(sourcePos).normalize();
-                // 受击时的推力也稍微调小
                 double knockbackForce = 0.4; 
                 
                 this.addVelocity(pushVec.x * knockbackForce, pushVec.y * knockbackForce, pushVec.z * knockbackForce);
