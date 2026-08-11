@@ -11,9 +11,12 @@
   "license": "MIT",
   "icon": "assets/blocknofriction/icon.png",
   "environment": "*",
-  "entrypoints": {
+    "entrypoints": {
     "main": [
       "com.panda.blocknofriction.BlockNoFriction"
+    ],
+    "client": [
+      "com.panda.blocknofriction.BlockNoFrictionClient"
     ]
   },
   "mixins": [
