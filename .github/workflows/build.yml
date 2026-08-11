@@ -1,6 +1,7 @@
-name: Build Fabric Mod
+name: Build BlockNoFriction
+
 on:
-  workflow_dispatch: 
+  workflow_dispatch:   # 依然保留手动触发按钮
 
 jobs:
   build:
@@ -21,17 +22,15 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      # 增加 --info 参数，方便在日志里追踪跳过了哪些步骤
-      - name: Build Mod
-        run: ./gradlew build --info
+      - name: Build with Gradle
+        run: ./gradlew build
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: blocknofriction-1.21-fabric
-          # 精准抓取：只保留最终产物，排除 -dev 和 -sources 包
+          name: BlockNoFriction-Mod
+          # 排除开发环境包，只保留玩家能用的纯净模组包
           path: |
             build/libs/*.jar
             !build/libs/*-dev.jar
             !build/libs/*-sources.jar
-          if-no-files-found: error
